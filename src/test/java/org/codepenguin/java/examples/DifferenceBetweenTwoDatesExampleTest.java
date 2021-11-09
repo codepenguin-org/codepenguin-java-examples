@@ -24,32 +24,30 @@
 
 package org.codepenguin.java.examples;
 
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-/**
- * Example about how to get the difference between two dates.
- *
- * @author Jorge Garcia
- * @version 1.0
- * @since 11
- */
-public final class DifferenceBetweenTwoDatesExample {
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
-    /**
-     * Calculates the difference between two dates in minutes.
-     *
-     * @param startDate the start date.
-     * @param endDate   the end date.
-     * @return the difference in minutes.
-     */
-    public long calculateDifferenceInMinutes(final Date startDate, final Date endDate) {
-        return Duration.between(convertToLocalDateTime(startDate), convertToLocalDateTime(endDate)).toMinutes();
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class DifferenceBetweenTwoDatesExampleTest {
+
+    private DifferenceBetweenTwoDatesExample example;
+
+    @BeforeEach
+    void setUp() {
+        example = new DifferenceBetweenTwoDatesExample();
     }
 
-    private LocalDateTime convertToLocalDateTime(final Date date) {
-        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+    @Test
+    void calculateDifferenceInMinutes() throws ParseException {
+        final var format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        final var startDate = format.parse("2021-07-23 14:12:31");
+        final var endDate = format.parse("2021-12-04 23:28:15");
+        final var minutes = example.calculateDifferenceInMinutes(startDate, endDate);
+
+        assertEquals(193515, minutes);
     }
 }
